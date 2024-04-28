@@ -71,6 +71,11 @@ export interface Agent {
    * Gets the visitor identifier
    */
   get(options?: Readonly<GetOptions>): Promise<GetResult>
+
+  /**
+   * Retrieve the visitor identifier from server
+   */
+  retrieve(): Promise<void>
 }
 
 function componentsToCanonicalString(components: UnknownComponents) {
@@ -128,6 +133,38 @@ function makeLazyGetResult(components: BuiltinComponents): GetResult {
 }
 
 /**
+ * Makes a GetResult implementation that calculates the visitor id hash on demand.
+ * Designed for optimisation.
+ */
+function componentsToJson(components: UnknownComponents): Object {
+  const jsonData = new Map<string, string>()
+  for (const componentKey of Object.keys(components).sort()) {
+    const component = components[componentKey]
+    jsonData.set(componentKey, component.result)
+  }
+  return Object.fromEntries(jsonData.entries())
+}
+
+function makeLazyRetrieveResult(components: BuiltinComponents) {
+  const jsonData = componentsToJson(components)
+  console.log(jsonData)
+  const jsonStr = JSON.stringify(jsonData)
+  console.log(jsonStr)
+  fetch("/api/fpjs/retrieve", {
+      method: 'POST', 
+      body: jsonStr,
+      headers: new Headers({
+      'Content-Type': 'application/text',
+      })
+  }).then(res => {
+    return res;
+  }).catch(error => {
+    return error
+  })
+  
+}
+
+/**
  * A delay is required to ensure consistent entropy components.
  * See https://github.com/fingerprintjs/fingerprintjs/issues/254
  * and https://github.com/fingerprintjs/fingerprintjs/issues/307
@@ -169,6 +206,10 @@ components: ${componentsToDebugString(components)}
       }
 
       return result
+    },
+    async retrieve() {
+      const components = await getComponents()
+      makeLazyRetrieveResult(components)
     },
   }
 }

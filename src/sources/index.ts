@@ -18,6 +18,7 @@ import getIndexedDB from './indexed_db'
 import getOpenDatabase from './open_database'
 import getCpuClass from './cpu_class'
 import getPlatform from './platform'
+import getToken from './token'
 import getVendor from './vendor'
 import getVendorFlavors from './vendor_flavors'
 import areCookiesEnabled from './cookies_enabled'
@@ -74,6 +75,7 @@ export const sources = {
   openDatabase: getOpenDatabase,
   cpuClass: getCpuClass,
   platform: getPlatform,
+  token: getToken,
   plugins: getPlugins,
   touchSupport: getTouchSupport,
   vendor: getVendor,

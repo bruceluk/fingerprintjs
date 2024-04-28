@@ -32,6 +32,7 @@ export type Component<T> = (
     }
 ) & {
   duration: number
+  result: string
 }
 
 /**
@@ -59,7 +60,23 @@ function isFinalResultLoaded<TValue>(loadResult: TValue | (() => MaybePromise<TV
  * The result is returned synchronously to prevent `loadSources` from
  * waiting for one source to load before getting the components from the other sources.
  */
+function valueToResult(sourceKey: string, value: any): string {
+  console.log(sourceKey)
+  console.log(typeof value)
+  console.log(value)
+  switch (typeof value) {
+    case 'string':
+      return value
+    case 'number':
+      return String(value)
+    case 'boolean':
+      return String(value)
+    default:
+      return JSON.stringify(value)
+  }
+}
 export function loadSource<TOptions, TValue>(
+  sourceKey: string,
   source: Source<TOptions, TValue>,
   sourceOptions: TOptions,
 ): () => Promise<Component<TValue>> {
@@ -73,14 +90,18 @@ export function loadSource<TOptions, TValue>(
 
       // Source loading failed
       if (!loadArgs[0]) {
-        return resolveLoad(() => ({ error: loadArgs[1], duration: loadDuration }))
+        return resolveLoad(() => ({ error: loadArgs[1], duration: loadDuration, result: 'error' }))
       }
 
       const loadResult = loadArgs[1]
 
       // Source loaded with the final result
       if (isFinalResultLoaded(loadResult)) {
-        return resolveLoad(() => ({ value: loadResult, duration: loadDuration }))
+        return resolveLoad(() => ({
+          value: loadResult,
+          duration: loadDuration,
+          result: valueToResult(sourceKey, loadResult),
+        }))
       }
 
       // Source loaded with "get" stage
@@ -94,11 +115,11 @@ export function loadSource<TOptions, TValue>(
 
               // Source getting failed
               if (!getArgs[0]) {
-                return resolveGet({ error: getArgs[1], duration })
+                return resolveGet({ error: getArgs[1], duration, result: 'error' })
               }
 
               // Source getting succeeded
-              resolveGet({ value: getArgs[1], duration })
+              resolveGet({ value: getArgs[1], duration, result: valueToResult(sourceKey, getArgs[1]) })
             })
           }),
       )
@@ -133,7 +154,7 @@ export function loadSources<TSourceOptions, TSources extends UnknownSources<TSou
   // Using `mapWithBreaks` allows asynchronous sources to complete between synchronous sources
   // and measure the duration correctly
   const sourceGettersPromise = mapWithBreaks(includedSources, (sourceKey) =>
-    loadSource(sources[sourceKey], sourceOptions),
+    loadSource(sourceKey.toString(), sources[sourceKey], sourceOptions),
   )
   suppressUnhandledRejectionWarning(sourceGettersPromise)
 

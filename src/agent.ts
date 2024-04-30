@@ -179,6 +179,7 @@ function makeLazyRetrieveResult(components: BuiltinComponents) {
       }
     })
     .catch((error) => {
+      console.log(error)
       parent.postMessage("fpjsDone", location.href)
     })
 }

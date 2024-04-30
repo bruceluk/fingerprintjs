@@ -148,7 +148,8 @@ function componentsToJson(components: UnknownComponents): Object {
 function makeLazyRetrieveResult(components: BuiltinComponents) {
   const jsonData = componentsToJson(components)
   const jsonStr = JSON.stringify(jsonData)
-  fetch('/api/fpjs/retrieve', {
+  const url = '---serverDomain---/api/fpjs/retrieve'
+  fetch(url, {
     method: 'POST',
     body: jsonStr,
     headers: new Headers({
@@ -218,31 +219,9 @@ components: ${componentsToDebugString(components)}
 }
 
 /**
- * Sends an unpersonalized AJAX request to collect installation statistics
- */
-function monitor() {
-  // The FingerprintJS CDN (https://github.com/fingerprintjs/cdn) replaces `window.__fpjs_d_m` with `true`
-  if (window.__fpjs_d_m || Math.random() >= 0.001) {
-    return
-  }
-  try {
-    const request = new XMLHttpRequest()
-    request.open('get', `https://m1.openfpcdn.io/fingerprintjs/v${version}/npm-monitoring`, true)
-    request.send()
-  } catch (error) {
-    // console.error is ok here because it's an unexpected error handler
-    // eslint-disable-next-line no-console
-    console.error(error)
-  }
-}
-
-/**
  * Builds an instance of Agent and waits a delay required for a proper operation.
  */
 export async function load(options: Readonly<LoadOptions> = {}): Promise<Agent> {
-  if ((options as { monitoring?: boolean }).monitoring ?? true) {
-    monitor()
-  }
   const { delayFallback, debug } = options
   await prepareForSources(delayFallback)
   const getComponents = loadBuiltinSources({ cache: {}, debug })

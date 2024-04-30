@@ -60,10 +60,7 @@ function isFinalResultLoaded<TValue>(loadResult: TValue | (() => MaybePromise<TV
  * The result is returned synchronously to prevent `loadSources` from
  * waiting for one source to load before getting the components from the other sources.
  */
-function valueToResult(sourceKey: string, value: any): string {
-  console.log(sourceKey)
-  console.log(typeof value)
-  console.log(value)
+function valueToResult(_sourceKey: string, value: any): string {
   switch (typeof value) {
     case 'string':
       return value
@@ -72,7 +69,7 @@ function valueToResult(sourceKey: string, value: any): string {
     case 'boolean':
       return String(value)
     default:
-      return JSON.stringify(value)
+      return value
   }
 }
 export function loadSource<TOptions, TValue>(

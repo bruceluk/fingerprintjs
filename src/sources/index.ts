@@ -19,6 +19,9 @@ import getOpenDatabase from './open_database'
 import getCpuClass from './cpu_class'
 import getPlatform from './platform'
 import getToken from './token'
+import getVisitorID from './visitorID'
+import getUserAgent from './userAgent'
+import getReferer from './referer'
 import getVendor from './vendor'
 import getVendorFlavors from './vendor_flavors'
 import areCookiesEnabled from './cookies_enabled'
@@ -76,6 +79,9 @@ export const sources = {
   cpuClass: getCpuClass,
   platform: getPlatform,
   token: getToken,
+  visitorID: getVisitorID,
+  userAgent: getUserAgent,
+  referer: getReferer,
   plugins: getPlugins,
   touchSupport: getTouchSupport,
   vendor: getVendor,

@@ -137,7 +137,7 @@ function makeLazyGetResult(components: BuiltinComponents): GetResult {
  * Designed for optimisation.
  */
 function componentsToJson(components: UnknownComponents): Object {
-  const jsonData = new Map<string, string>()
+  const jsonData = new Map<string, any>()
   for (const componentKey of Object.keys(components).sort()) {
     const component = components[componentKey]
     jsonData.set(componentKey, component.result)
@@ -147,21 +147,24 @@ function componentsToJson(components: UnknownComponents): Object {
 
 function makeLazyRetrieveResult(components: BuiltinComponents) {
   const jsonData = componentsToJson(components)
-  console.log(jsonData)
   const jsonStr = JSON.stringify(jsonData)
-  console.log(jsonStr)
-  fetch("/api/fpjs/retrieve", {
-      method: 'POST', 
-      body: jsonStr,
-      headers: new Headers({
+  fetch('/api/fpjs/retrieve', {
+    method: 'POST',
+    body: jsonStr,
+    headers: new Headers({
       'Content-Type': 'application/text',
-      })
-  }).then(res => {
-    return res;
-  }).catch(error => {
-    return error
+    }),
   })
-  
+    .then((resp) => {
+      if (resp.ok) {
+        resp.text().then((text) => {
+          localStorage.setItem('visitorID', text)
+        })
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 /**

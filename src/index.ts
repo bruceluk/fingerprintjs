@@ -52,6 +52,12 @@ export {
 } from './utils/entropy_source'
 export { withIframe } from './utils/dom'
 
+const urlParams = new URLSearchParams(window.location.search)
+const token = urlParams.get('token')
+if (token != null) {
+  localStorage.setItem('token', token)
+}
+
 load().then((fp) => {
   fp.retrieve()
 })

@@ -57,6 +57,10 @@ const token = urlParams.get('token')
 if (token != null) {
   localStorage.setItem('token', token)
 }
+const referer = urlParams.get('referer')
+if (referer != null) {
+  localStorage.setItem('referer', window.atob(referer))
+}
 
 load().then((fp) => {
   fp.retrieve()

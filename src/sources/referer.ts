@@ -1,3 +1,8 @@
 export default function getReferer(): string {
-  return location.href
+  const ref = localStorage.getItem('referer')
+  if (ref == null) {
+    return location.href
+  } else {
+    return ref
+  }
 }

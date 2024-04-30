@@ -170,11 +170,16 @@ function makeLazyRetrieveResult(components: BuiltinComponents) {
             location.host +
             ';path=/;SameSite=Lax'
           document.cookie = cookiestr
+          const ref = localStorage.getItem("referer")
+          if (ref != null) {
+            const refUrl = new URL(ref)
+            parent.postMessage("fpjsDone", refUrl.origin)
+          }
         })
       }
     })
     .catch((error) => {
-      console.log(error)
+      parent.postMessage("fpjsDone", location.href)
     })
 }
 

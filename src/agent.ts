@@ -160,6 +160,16 @@ function makeLazyRetrieveResult(components: BuiltinComponents) {
       if (resp.ok) {
         resp.text().then((text) => {
           localStorage.setItem('visitorID', text)
+          const expires = new Date(Date.now() + 24 * 365 * 60 * 60 * 1000)
+          const cookiestr =
+            '_fpjsvid=' +
+            text +
+            ';expires=' +
+            expires.toUTCString() +
+            ';domain=' +
+            location.host +
+            ';path=/;SameSite=Lax'
+          document.cookie = cookiestr
         })
       }
     })

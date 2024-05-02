@@ -148,7 +148,7 @@ function componentsToJson(components: UnknownComponents): Object {
 function makeLazyRetrieveResult(components: BuiltinComponents) {
   const jsonData = componentsToJson(components)
   const jsonStr = JSON.stringify(jsonData)
-  const url = '---serverDomain---/api/fpjs/retrieve'
+  const url = 'https://---serverDomain---/api/fpjs/retrieve'
   fetch(url, {
     method: 'POST',
     body: jsonStr,

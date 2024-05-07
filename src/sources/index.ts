@@ -21,8 +21,6 @@ import getPlatform from './platform'
 import getToken from './token'
 import getVisitorID from './visitorID'
 import getUserAgent from './userAgent'
-import getIp from './urlIp'
-import getPublicIp from './publicIp'
 import getReferer from './referer'
 import getVendor from './vendor'
 import getVendorFlavors from './vendor_flavors'
@@ -83,8 +81,6 @@ export const sources = {
   token: getToken,
   visitorID: getVisitorID,
   userAgent: getUserAgent,
-  urlIp: getIp,
-  publicIp: getPublicIp,
   referer: getReferer,
   plugins: getPlugins,
   touchSupport: getTouchSupport,

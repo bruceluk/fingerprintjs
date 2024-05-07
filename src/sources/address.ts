@@ -1,6 +1,5 @@
-import { isSafariWebKit, isWebKit, isWebKit616OrNewer } from '../utils/browser'
 
-export interface getPublicIp {
+export interface PublicIp {
   publicIp: string
   localIp: string
 }
@@ -11,10 +10,10 @@ export interface getPublicIp {
  * A version of the entropy source with stabilization to make it suitable for static fingerprinting.
  * Canvas image is noised in private mode of Safari 17, so image rendering is skipped in Safari 17.
  */
-export default function getCanvasFingerprint(): Promise<getPublicIp> {
+export default function getAddress(): Promise<PublicIp> {
   // console.log('1344444---------', getUnstableCanvasFingerprint(doesBrowserPerformAntifingerprinting()))
 
-  return getUnstableCanvasFingerprint(doesBrowserPerformAntifingerprinting())
+  return getUnstableAddress()
 }
 export async function getPublicIp(callback: any) {
   var ip_dups: any = {}
@@ -69,11 +68,9 @@ export async function getPublicIp(callback: any) {
  * This function is out of Semantic Versioning, i.e. can change unexpectedly. Usage is at your own risk.
  */
 
-export async function getUnstableCanvasFingerprint(skipImages?: boolean): Promise<getPublicIp> {
+export async function getUnstableAddress(): Promise<PublicIp> {
   let publicIp: any
   let localIp: string = await getLocalIP()
-  if (skipImages) {
-  }
   publicIp = sessionStorage.getItem('publicIp')
   return { publicIp, localIp }
 }
@@ -102,10 +99,3 @@ function getLocalIP(): any {
   })
 }
 
-/**
- * Checks if the current browser is known for applying anti-fingerprinting measures in all or some critical modes
- */
-function doesBrowserPerformAntifingerprinting() {
-  // Safari 17
-  return isWebKit() && isWebKit616OrNewer() && isSafariWebKit()
-}

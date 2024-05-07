@@ -35,7 +35,17 @@ async function startPlayground() {
       size: 'big',
     })
 
-    addOutputSection({ output, header: 'User agent:', content: navigator.userAgent })
+    // addOutputSection({ output, header: 'User agent:', content: navigator.userAgent })
+    addOutputSection({
+      output,
+      header: 'Your local IP addresses:',
+      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).address.result.localIp,
+    })
+    addOutputSection({
+      output,
+      header: 'Your public IP addresses:',
+      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).address.result.publicIp,
+    })
     addOutputSection({
       output,
       header: 'Entropy components:',
@@ -51,12 +61,23 @@ Entropy components:
 ${FingerprintJS.componentsToDebugString(components)}
 \`\`\``)
   } catch (error) {
+    const { components } = await getVisitorData()
     const totalTime = Date.now() - startTime
     const errorData = error instanceof Error ? errorToObject(error) : error
     output.innerHTML = ''
     addOutputSection({ output, header: 'Unexpected error:', content: JSON.stringify(errorData, null, 2) })
     addOutputSection({ output, header: 'Time passed before the error:', content: `${totalTime}ms`, size: 'big' })
-    addOutputSection({ output, header: 'User agent:', content: navigator.userAgent })
+    // addOutputSection({ output, header: 'User agent:', content: navigator.userAgent })
+    addOutputSection({
+      output,
+      header: 'Your local IP addresses:',
+      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).address.result.localIp,
+    })
+    addOutputSection({
+      output,
+      header: 'Your public IP addresses:',
+      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).address.result.publicIp,
+    })
 
     initializeDebugButtons(`Unexpected error:\n
 \`\`\`

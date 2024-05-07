@@ -3,6 +3,7 @@ import getAudioFingerprint from './audio'
 import getFonts from './fonts'
 import getPlugins from './plugins'
 import getCanvasFingerprint from './canvas'
+import getAddress from './address'
 import getTouchSupport from './touch_support'
 import getOsCpu from './os_cpu'
 import getLanguages from './languages'
@@ -64,7 +65,7 @@ export const sources = {
   audio: getAudioFingerprint,
   screenFrame: getScreenFrame,
   canvas: getCanvasFingerprint,
-
+  address: getAddress,
   osCpu: getOsCpu,
   languages: getLanguages,
   colorDepth: getColorDepth,

@@ -34,6 +34,7 @@ async function startPlayground() {
       },
       size: 'big',
     })
+
     addOutputSection({ output, header: 'User agent:', content: navigator.userAgent })
     addOutputSection({
       output,

@@ -17,10 +17,8 @@ function getPublicIp(): any {
     const pc = new RTCPeerConnection({
       iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
     })
+
     function handleCandidate(candidate: any) {
-      // var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
-      // var ip_addr: any = ip_regex.exec(candidate)
-      // ip_addr = ip_addr[1]
       var ip_addr: any = ''
       if (candidate.match(/^(192\.127\.168\.|169\.254\.|10\.|172\.(1[6-9]|2\d|3[01]))/)) {
         //local IPs
@@ -30,7 +28,19 @@ function getPublicIp(): any {
         //assume the rest are public IPs
         ip_addr = candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/)[1]
       }
-      //assume the rest are public IPs
+
+      //不用延时获取 可用的 公网ip
+      var lines = pc.localDescription?.sdp.split('\n')
+      lines?.forEach(function (line) {
+        if (line.indexOf('a=candidate:') === 0) {
+          //assume the rest are public IPs
+          let lineIp = line.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/)
+          if (lineIp) {
+            ip_addr = lineIp[1]
+          }
+        }
+      })
+
       if (ip_addr) {
         resolve(ip_addr)
       } else {
@@ -53,14 +63,14 @@ function getPublicIp(): any {
       },
       function () {},
     )
-    setTimeout(function () {
-      var lines = pc.localDescription?.sdp.split('\n')
-      lines?.forEach(function (line) {
-        if (line.indexOf('a=candidate:') === 0) {
-          handleCandidate(line)
-        }
-      })
-    }, 2000)
+    // setTimeout(function () {
+    //   var lines = pc.localDescription?.sdp.split('\n')
+    //   lines?.forEach(function (line) {
+    //     if (line.indexOf('a=candidate:') === 0) {
+    //       handleCandidate(line)
+    //     }
+    //   })
+    // }, 2000)
   })
 }
 

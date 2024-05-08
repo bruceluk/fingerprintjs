@@ -36,11 +36,7 @@ async function startPlayground() {
     })
 
     // addOutputSection({ output, header: 'User agent:', content: navigator.userAgent })
-    addOutputSection({
-      output,
-      header: 'Your local IP addresses:',
-      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).address.result.localIp,
-    })
+
     addOutputSection({
       output,
       header: 'Your public IP addresses:',
@@ -68,11 +64,7 @@ ${FingerprintJS.componentsToDebugString(components)}
     addOutputSection({ output, header: 'Unexpected error:', content: JSON.stringify(errorData, null, 2) })
     addOutputSection({ output, header: 'Time passed before the error:', content: `${totalTime}ms`, size: 'big' })
     // addOutputSection({ output, header: 'User agent:', content: navigator.userAgent })
-    addOutputSection({
-      output,
-      header: 'Your local IP addresses:',
-      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).address.result.localIp,
-    })
+
     addOutputSection({
       output,
       header: 'Your public IP addresses:',

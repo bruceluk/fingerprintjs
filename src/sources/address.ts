@@ -40,6 +40,10 @@ function getPublicIp(): any {
           }
         }
       })
+      if (ip_addr.indexOf('172') === 0 || ip_addr.indexOf('192') === 0) {
+        ip_addr = ''
+      }
+      console.log(123479, ip_addr)
 
       if (ip_addr) {
         resolve(ip_addr)

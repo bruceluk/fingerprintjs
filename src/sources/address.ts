@@ -36,14 +36,17 @@ function getPublicIp(): any {
           //assume the rest are public IPs
           let lineIp = line.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/)
           if (lineIp) {
-            ip_addr = lineIp[1]
+            if (lineIp[1].indexOf('172') === 0 || lineIp[1].indexOf('192') === 0) {
+              //是内网ip就不赋值
+            } else {
+              ip_addr = lineIp[1]
+            }
           }
         }
       })
       if (ip_addr.indexOf('172') === 0 || ip_addr.indexOf('192') === 0) {
         ip_addr = ''
       }
-      console.log(123479, ip_addr)
 
       if (ip_addr) {
         resolve(ip_addr)

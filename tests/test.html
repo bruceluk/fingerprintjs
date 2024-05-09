@@ -1,0 +1,13 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <script >
+            console.log = function() {
+                document.body.append(JSON.stringify(Array().slice.call(arguments)));
+            };
+        </script>
+        <script src="/fpjstest/index.js"></script>
+        
+    </body>
+</html>

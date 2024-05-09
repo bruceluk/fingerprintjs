@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <script >
+            console.log = function() {
+                document.write("<p>"+JSON.stringify(Array().slice.call(arguments))+"</p>");
+            };
+        </script>
+        <script src="/fpjstest/fp.js"></script>
+    </head>
+    <body>
+        <iframe id="webRTCIFrame" sandbox="allow-same-origin" style="display: none"></iframe>
+    </body>
+</html>

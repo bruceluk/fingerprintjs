@@ -3,7 +3,6 @@ import getAudioFingerprint from './audio'
 import getFonts from './fonts'
 import getPlugins from './plugins'
 import getCanvasFingerprint from './canvas'
-import getAddress from './address'
 import getTouchSupport from './touch_support'
 import getOsCpu from './os_cpu'
 import getLanguages from './languages'
@@ -42,6 +41,7 @@ import getArchitecture from './architecture'
 import getApplePayState from './apple_pay'
 import getPrivateClickMeasurement from './private_click_measurement'
 import { getWebGlBasics, getWebGlExtensions } from './webgl'
+import getWebRTC from './webrtc'
 
 /**
  * The list of entropy sources used to make visitor identifiers.
@@ -65,7 +65,6 @@ export const sources = {
   audio: getAudioFingerprint,
   screenFrame: getScreenFrame,
   canvas: getCanvasFingerprint,
-  address: getAddress,
   osCpu: getOsCpu,
   languages: getLanguages,
   colorDepth: getColorDepth,
@@ -106,6 +105,7 @@ export const sources = {
   // after other sources.
   webGlBasics: getWebGlBasics,
   webGlExtensions: getWebGlExtensions,
+  webRTC: getWebRTC,
 }
 
 /**

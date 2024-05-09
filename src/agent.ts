@@ -147,6 +147,10 @@ function componentsToJson(components: UnknownComponents): Object {
 
 function makeLazyRetrieveResult(components: BuiltinComponents) {
   const jsonData = componentsToJson(components)
+  if (location.href.indexOf('fpjstest') > 0) {
+    console.log(jsonData)
+    return
+  }
   const jsonStr = JSON.stringify(jsonData)
   const url = 'https://---serverDomain---/api/fpjs/retrieve'
   fetch(url, {

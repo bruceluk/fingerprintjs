@@ -40,7 +40,7 @@ async function startPlayground() {
     addOutputSection({
       output,
       header: 'Your public IP addresses:',
-      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).address.result.publicIp,
+      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).webRTC.result.publicIp,
     })
     addOutputSection({
       output,
@@ -68,7 +68,7 @@ ${FingerprintJS.componentsToDebugString(components)}
     addOutputSection({
       output,
       header: 'Your public IP addresses:',
-      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).address.result.publicIp,
+      content: JSON.parse(FingerprintJS.componentsToDebugString(components)).webRTC.result.publicIp,
     })
 
     initializeDebugButtons(`Unexpected error:\n
